@@ -1,0 +1,45 @@
+{
+  "name": "tmdb",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "nodemon src/server/main.ts -w src/server",
+    "start": "NODE_ENV=production ts-node src/server/main.ts",
+    "build": "vite build",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^2.8.1",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "express": "^4.18.2",
+    "framer-motion": "^10.16.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.16.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2",
+    "vite-express": "*"
+  },
+  "devDependencies": {
+    "@storybook/addon-a11y": "^7.4.2",
+    "@storybook/addon-essentials": "^7.4.2",
+    "@storybook/addon-interactions": "^7.4.2",
+    "@storybook/addon-links": "^7.4.2",
+    "@storybook/addon-onboarding": "^1.0.8",
+    "@storybook/addon-storysource": "^7.4.2",
+    "@storybook/blocks": "^7.4.2",
+    "@storybook/react": "^7.4.2",
+    "@storybook/react-vite": "^7.4.2",
+    "@storybook/testing-library": "^0.2.1",
+    "@types/express": "^4.17.15",
+    "@types/node": "^18.11.18",
+    "@types/react": "^18.0.26",
+    "@types/react-dom": "^18.0.10",
+    "@vitejs/plugin-react": "^3.0.1",
+    "nodemon": "^2.0.20",
+    "storybook": "^7.4.2",
+    "vite": "^4.0.4"
+  }
+}
