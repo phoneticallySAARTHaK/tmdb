@@ -5,14 +5,15 @@ export namespace api {
   export const apiEndpoints = Object.fromEntries(
     Object.entries(apiPaths).map(([key, val]) => {
       return [key, `${location.origin}/api${val}`] as const;
-    })
+    }),
   ) as unknown as {
     [k in keyof typeof apiPaths]: `https://${string}/api${(typeof apiPaths)[k]}`;
   };
 
-  export async function search(query: string) {
+  export async function search(query: string, page?: number) {
     const url = new URL(apiEndpoints.search);
     url.searchParams.set("q", query);
+    page ?? url.searchParams.set("page", `${page ?? 0}`);
 
     return utils.fetch<SearchResponse>(url);
   }
@@ -40,4 +41,9 @@ export namespace api {
     vote_average: number;
     vote_count: number;
   };
+
+  export async function movie(id: string) {
+    const url = new URL(apiEndpoints.movie + "/" + id);
+    return utils.fetch<{ data: string } & Success>(url);
+  }
 }

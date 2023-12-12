@@ -1,27 +1,29 @@
-import { Dispatch, SetStateAction, createContext, useContext } from "react";
+import { Dispatch, createContext, useContext } from "react";
 
 export type ComboBoxContext = {
   selected: string;
   isMenuOpen: boolean;
   menuId: string;
-  onMenuClose: () => void;
-  onMenuOpen: () => void;
-  dispatch: Dispatch<SetStateAction<ComboBoxState>>;
-  options: Option[];
+  dispatch: Dispatch<Partial<ComboBoxState>>;
+  // options: ComboBoxOption[];
+  // isLoading: boolean;
 };
-export type Option = { label: string; value: string };
-export type ComboBoxState = Omit<
-  ComboBoxContext,
-  "dispatch" | "onMenuOpen" | "onMenuClose" | "menuId"
->;
+
+export type ComboBoxOption = {
+  label: string;
+  value: string;
+  path?: string | null;
+  date: string;
+};
+
+export type ComboBoxState = Omit<ComboBoxContext, "dispatch" | "menuId">;
 
 export const comboBoxDefaultState: ComboBoxContext = {
   menuId: "",
   isMenuOpen: false,
-  onMenuClose: () => {},
-  onMenuOpen: () => {},
   selected: "",
-  options: [],
+  // options: [],
+  // isLoading: false,
   dispatch: () => {},
 };
 

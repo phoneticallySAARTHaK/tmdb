@@ -72,6 +72,29 @@ export namespace utils {
       return { ok: false, message: "Network Error" } as TError;
     }
   }
+
+  /**
+   * Dispatch Custom syntethic change event
+   * Use case - control react state from event listeners
+   *
+   * https://stackoverflow.com/a/68979462/8791684
+   * https://github.com/facebook/react/issues/7029
+   * https://stackoverflow.com/a/46012210/8791684
+   * @param target
+   * @param value
+   */
+  export function dispatchSyntheticChangeEvent(
+    target: HTMLElement,
+    value: string
+  ) {
+    const valueSetter = Object.getOwnPropertyDescriptor(
+      Object.getPrototypeOf(target),
+      "value"
+    )?.set;
+
+    valueSetter?.call(target, value);
+    target.dispatchEvent(new Event("input", { bubbles: true }));
+  }
 }
 
 export type Success = { ok: true; message: string };
@@ -83,13 +106,15 @@ export function debounce<T extends (...args: any[]) => unknown>(
 ) {
   let timeoutId: NodeJS.Timeout;
 
-  return function (this: unknown, ...args: Parameters<T>) {
-    return new Promise((res) => {
-      clearTimeout(timeoutId);
+  return function (...args: Parameters<T>) {
+    clearTimeout(timeoutId);
 
-      timeoutId = setTimeout(() => {
-        res(func(...args));
-      }, delay);
-    }) as ReturnType<T>;
+    timeoutId = setTimeout(() => {
+      func(...args);
+    }, delay);
   };
+}
+
+export function getPosterUrl(path: string, size?: 92 | 154) {
+  return `https://image.tmdb.org/t/p/${size ? "w" + size : ""}/${path ?? ""}`;
 }

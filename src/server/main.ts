@@ -13,7 +13,7 @@ app.use(express.json());
 app.get(`/api${apiPaths.search}`, async (req, res) => {
   try {
     res.json(
-      await fetchWithAuth(`${apiPaths.search}/movie?query=${req.query.q}`)
+      await fetchWithAuth(`${apiPaths.search}/movie?query=${req.query.q}`),
     );
   } catch (e) {
     console.log(e);
@@ -31,7 +31,7 @@ app.get(`/api${apiPaths.movie}/:id`, async (req, res) => {
 });
 
 ViteExpress.listen(app, 3000, () =>
-  console.log("Server is listening on port 3000...")
+  console.log("Server is listening on port 3000..."),
 );
 
 function fetchWithAuth(path: string) {

@@ -1,14 +1,23 @@
-import { useDisclosure } from "@chakra-ui/react";
-import { useId, useState } from "react";
+import { As, Box, HTMLChakraProps } from "@chakra-ui/react";
+import { ReactNode, useId, useReducer } from "react";
 import { ComboBoxProvider, ComboBoxState } from "./Provider";
 
-export const Combobox = () => {
+export type ComboboxProps<T extends As> = {
+  children: ReactNode;
+} & HTMLChakraProps<T>;
+
+export function Combobox<T extends As>({
+  children,
+
+  ...props
+}: ComboboxProps<T>) {
   const listboxId = useId();
-  const { isOpen, onClose, onOpen } = useDisclosure();
-  const [state, dispatch] = useState<ComboBoxState>({
+
+  const [state, dispatch] = useReducer<
+    (state: ComboBoxState, action: Partial<ComboBoxState>) => ComboBoxState
+  >((state, action) => ({ ...state, ...action }), {
     selected: "",
-    isMenuOpen: isOpen,
-    options: [],
+    isMenuOpen: false,
   });
 
   return (
@@ -16,10 +25,13 @@ export const Combobox = () => {
       value={{
         ...state,
         dispatch,
-        onMenuClose: onClose,
-        onMenuOpen: onOpen,
         menuId: listboxId,
       }}
-    ></ComboBoxProvider>
+      children={
+        <Box position="relative" {...props}>
+          {children}
+        </Box>
+      }
+    />
   );
-};
+}
